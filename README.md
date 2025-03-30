@@ -1,2 +1,2 @@
 # calculadora
-Calculadora basica por web
+Calculadora basica con javascript, css y html.
