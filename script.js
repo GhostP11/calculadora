@@ -4,7 +4,7 @@ let displayNumber = 0;
 let buttonValue = 0;
 let currentValue = 0;
 let mathFunction = '';
-let answere = 0;
+let answer = 0;
 let clearDisplay = -1;
 let res = 0;
 let displayValue = 0;
@@ -93,8 +93,104 @@ clear.addEventListener('click', () => {
 });
 
 const equals = document.querySelector('#equals');
-const buttons = document.querySelectorAll("button")
-const toggle = document.querySelector(".toggle")
+
+equals.addEventListener('click', () => {
+    if( num1 === 'noNumber' && num2 === 'noNumber') {
+        console.log('No se eviaron numeros');
+        num1 = currentValue;
+        displayElement.textContent = num1;
+    } else {
+        num2 = currentValue;
+        operate(num1, num2, mathFunction);
+        answer = Number(SubmitEvent.toFixed(7));
+        console.log('La respuesta despues de equals es ' + answer);
+        displayElement.textContent = answer;
+        num1 = answer;
+        num2 = 'noNumber';
+        mathFunction = '';
+    }
+});
+
+const decimal = document.querySelector('#dot');
+
+decimal.addEventListener('click', () => {
+    decimalCheck = displayElement.textContent.includes('.');
+    if (decimalCheck == true) {
+        decimal.disabled = true;
+    } else {
+        decimal.disabled = false;
+    }
+});
+
+function decimalCheck() {
+    decimalCheck = displayElement.textContent.includes('.');
+    if (decimalCheck == true) {
+        decimal.disabled = true;
+    } else {
+        decimal.disabled = false;
+    }
+}
+
+function deleteNumber() {
+    delNumberString = displayElement.textContent;
+    newNumber = delNumberString.slice(0, -1);
+    newDisplay = Number(newNumber);
+    currentValue = newDisplay;
+    displayElement.textContent = newDisplay;
+    if (num2 === 'noNumber') {
+        num1 = newDisplay;
+        answer = num1;
+        res = num1;
+    }
+}
+
+const delNumber = document.querySelector('#backspace');
+
+delNumber.addEventListener('click', deleteNumber);
+
+function percentCalc() {
+    currentValue = Number(displayElement.textContent);
+    newNumber = currentValue/100;
+    displayElement.textContent = newNumber;
+    currentValue = newNumber;
+    if (num2 === 'noNumber') {
+        num1 = currentValue;
+        answer = num1;
+        res = num1;
+    }
+}
+
+const percentage = document.querySelector('#%');
+
+percentage.addEventListener('click', percentCalc);
+
+function positiveNegative() {
+    currentValue = Number(displayElement.textContent);
+    newNumber = currentValue*-1;
+    displayElement.textContent = newNumber;
+    currentValue = newNumber;
+    if (num2 === 'no Number') {
+        num1 = currentValue;
+        answer = num1;
+        res = num1;
+    }
+};
+
+const posNeg = document.querySelector('#+/-');
+
+posNeg.addEventListener('click', positiveNegative);
+
+// const buttons = document.querySelectorAll('.buttons');
+
+// buttons.forEach((buttons) => {
+//     buttons.addEventListener('mouseenter', () => {
+//         buttons.style
+//     });
+// });
+
+
+
+const toggle = document.querySelector(".toggle");
 
 toggle.onclick = () => {
     toggle.classList.toggle("active");
