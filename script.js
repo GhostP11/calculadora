@@ -9,6 +9,7 @@ let clearDisplay = -1;
 let res = 0;
 let displayValue = 0;
 let includesDecimal = '';
+let isDark = true;
 
 function add(num1, num2) {
     res = num1 + num2;
@@ -31,17 +32,17 @@ function clearTotal() {
 }
 
 function operate(num1, num2, mathFunction) {
-    if (mathFunction === "add") {
+    if (mathFunction === 'add') {
         add(num1, num2);
     } else if (mathFunction === 'subtract') {
         subtract(num1, num2);
     } else if (mathFunction === 'multiply') {
         multiply(num1, num2);
-    } else if (mathFunction === 'divide') {
-        divide(num1, num2);
     } else if (mathFunction === 'divide' && num2 === 0) {
         displayElement.textContent = displayNumber;
         alert('Error quieres dividir entre 0');
+    } else if (mathFunction === 'divide') {
+        divide(num1, num2);
     } else if (mathFunction === 'clearTotal') {
         clearTotal();
     } else {
@@ -49,28 +50,28 @@ function operate(num1, num2, mathFunction) {
 }
 
 function concatNumbers() {
-    displayElement = document.getElementById('displayScreen');
+    displayElement = document.getElementById('display-screen');
     displayNumber = displayElement.textContent;
     buttonValue = this.textContent;
     decimal.disabled = false;
-    desimalCheck
+    decimalCheck
     if (displayNumber === '0') {
         displayElement.textContent = buttonValue;
         currentValue = Number(displayNumber + buttonValue);
-    } else if (clearDisplay === 1 && displayNumber.length < 9) {
+    } else if (clearDisplay === 1 && displayNumber.length < 10) {
         displayNumber = '';
         currentValue = 0;
         clearDisplay = -1;
         displayElement.textContent = displayNumber + buttonValue;
         currentValue = Number(displayNumber + buttonValue);
-    } else if (displayNumber.length < 9) {
+    } else if (displayNumber.length < 10) {
         displayElement.textContent = displayNumber + buttonValue;
         currentValue = Number(displayNumber + buttonValue);
     } else {
     }
 }
 
-const numberButtons = document.querySelector('.numbers');
+const numberButtons = document.querySelectorAll('.btn-numbers');
 
 numberButtons.forEach(button => {
     button.addEventListener('click', concatNumbers);
@@ -102,7 +103,7 @@ equals.addEventListener('click', () => {
     } else {
         num2 = currentValue;
         operate(num1, num2, mathFunction);
-        answer = Number(SubmitEvent.toFixed(7));
+        answer = Number(res.toFixed(7));
         console.log('La respuesta despues de equals es ' + answer);
         displayElement.textContent = answer;
         num1 = answer;
@@ -160,7 +161,7 @@ function percentCalc() {
     }
 }
 
-const percentage = document.querySelector('#%');
+const percentage = document.querySelector('#percent');
 
 percentage.addEventListener('click', percentCalc);
 
@@ -176,20 +177,43 @@ function positiveNegative() {
     }
 };
 
-const posNeg = document.querySelector('#+/-');
+const posNeg = document.querySelector('#posNeg');
 
 posNeg.addEventListener('click', positiveNegative);
 
-// const buttons = document.querySelectorAll('.buttons');
+const operators = document.querySelectorAll('.btn-operators');
 
-// buttons.forEach((buttons) => {
-//     buttons.addEventListener('mouseenter', () => {
-//         buttons.style
-//     });
-// });
+operators.forEach((operators) => {
+    operators.addEventListener('click', () => {
+        storageCheck();
+        mathFunction = operators.id;
+    });
+});
 
+function storageCheck() {
+    if (num1 === "noNumber") {
+        console.log("Se mando la opcion 1");
+        clearDisplay = 1;
+        num1 = currentValue;
+    } else if (num1 !== "noNumber") {
+        num2 = currentValue;
+        operate(num1, num2, mathFunction);
+        answer = res;
+        console.log('Se manda la segunda opcion y el la respuesta es ' + res);
+        displayElement.textContent = answer;
+        num1 = answer;
+        num2 = "noNumber";
+        currentValue = num1;
+        mathFunction = '';
+        clearDisplay = 1;
+    } else {
+        console.log('Se mando la opcion 3');
+        clearDisplay = 1;
+        num2 = currentValue;
+    }
+}
 
-
+const calculator = document.querySelector('.calculator');
 const toggle = document.querySelector(".toggle");
 
 toggle.onclick = () => {
