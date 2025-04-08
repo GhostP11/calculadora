@@ -185,6 +185,9 @@ const operators = document.querySelectorAll('.btn-operators');
 
 operators.forEach((operators) => {
     operators.addEventListener('click', () => {
+        if (num1 != 'noNumber') {
+            secondNumber = currentValue;
+        }
         storageCheck();
         mathFunction = operators.id;
     });
